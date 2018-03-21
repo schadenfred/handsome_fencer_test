@@ -1,5 +1,4 @@
 require 'rails/generators'
-require 'byebug'
 class HandsomeFencerTest::InstallGenerator < Rails::Generators::Base
 
   source_root File.expand_path("../templates", __FILE__)
@@ -21,7 +20,7 @@ class HandsomeFencerTest::InstallGenerator < Rails::Generators::Base
   end
 
   def configure_test_with_spec
-    byebug
+
     if destination_root == Rails.root.to_s
       file = 'config/application.rb'
     else

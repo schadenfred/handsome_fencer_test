@@ -1,6 +1,6 @@
 require 'rails/generators'
-
-class Testable::InstallGenerator < Rails::Generators::Base
+require 'byebug'
+class HandsomeFencerTest::InstallGenerator < Rails::Generators::Base
 
   source_root File.expand_path("../templates", __FILE__)
 
@@ -9,7 +9,11 @@ class Testable::InstallGenerator < Rails::Generators::Base
   end
 
   def copy_test_helper_file
-    copy_file "test_helper.rb.tt", "test/test_helper.rb"
+    if destination_root == Rails.root.to_s
+      copy_file "engine_test_helper.rb.tt", "test/test_helper.rb"
+    else
+      copy_file "test_helper.rb.tt", "test/test_helper.rb"
+    end
   end
 
   def copy_test_support_files
@@ -17,7 +21,12 @@ class Testable::InstallGenerator < Rails::Generators::Base
   end
 
   def configure_test_with_spec
-    inject_into_file 'config/application.rb', after: "class Application < Rails::Application\n" do
+    if destination_root == Rails.root.to_s
+      file = 'config/application.rb'
+    else
+      file = 'test/dummy/config/application.rb'
+    end
+    inject_into_file file, after: "class Application < Rails::Application\n" do
       <<-'RUBY'
         # Force new test files to be generated in the minitest-spec style
         config.generators do |g|

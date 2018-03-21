@@ -10,9 +10,9 @@ class HandsomeFencerTest::InstallGenerator < Rails::Generators::Base
 
   def copy_test_helper_file
     if destination_root == Rails.root.to_s
-      copy_file "engine_test_helper.rb.tt", "test/test_helper.rb"
-    else
       copy_file "test_helper.rb.tt", "test/test_helper.rb"
+    else
+      copy_file "engine_test_helper.rb.tt", "test/test_helper.rb"
     end
   end
 
@@ -21,6 +21,7 @@ class HandsomeFencerTest::InstallGenerator < Rails::Generators::Base
   end
 
   def configure_test_with_spec
+    byebug
     if destination_root == Rails.root.to_s
       file = 'config/application.rb'
     else
